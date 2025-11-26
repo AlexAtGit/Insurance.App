@@ -1,0 +1,67 @@
+<div class="calculator-container">
+  <h1>Probability Calculator</h1>
+
+  <form [formGroup]="form" (ngSubmit)="onCalculate()">
+    <div class="form-group">
+      <label for="probabilityA">Probability A</label>
+      <input
+        id="probabilityA"
+        type="text"
+        formControlName="probabilityA"
+        placeholder="Enter a value between 0 and 1"
+        class="form-control"
+        [class.is-invalid]="getFieldError('probabilityA') !== ''">
+      <div class="error-message" *ngIf="getFieldError('probabilityA')">
+        {{ getFieldError('probabilityA') }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="probabilityB">Probability B</label>
+      <input
+        id="probabilityB"
+        type="text"
+        formControlName="probabilityB"
+        placeholder="Enter a value between 0 and 1"
+        class="form-control"
+        [class.is-invalid]="getFieldError('probabilityB') !== ''">
+      <div class="error-message" *ngIf="getFieldError('probabilityB')">
+        {{ getFieldError('probabilityB') }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="functionName">Function</label>
+      <select
+        id="functionName"
+        formControlName="functionName"
+        class="form-control">
+        <option *ngFor="let option of functionOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+
+    <div class="button-group">
+      <button type="submit" class="btn btn-primary" [disabled]="loading">
+        {{ loading ? 'Calculating...' : 'Calculate' }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="resetForm()">
+        Reset
+      </button>
+    </div>
+  </form>
+
+  <div class="result-container" *ngIf="result">
+    <h2>Result</h2>
+    <div class="result-info">
+      <p><strong>Result:</strong> {{ result.result }}</p>
+      <p><strong>Calculated At:</strong> {{ result.calculatedAt | date:'short' }}</p>
+    </div>
+  </div>
+
+  <div class="error-container" *ngIf="error">
+    <h2>Error</h2>
+    <p>{{ error }}</p>
+  </div>
+</div>
